@@ -17,9 +17,12 @@ use App\Http\Controllers\ApiController;
 
 Route::put('/create', [ApiController::class, 'create']);
 Route::put('/createWithColumns', [ApiController::class, 'createWithColumns']);
+Route::put('/updateOrInsert', [ApiController::class, 'updateOrInsert']);
 Route::put('/updateValue', [ApiController::class, 'updateValue']);
 Route::post('/singleSelect', [ApiController::class, 'singleSelect']);
+Route::post('/increment', [ApiController::class, 'increment']);
 Route::get('/randomQuestions', [ApiController::class, 'randomQuestions']);
+Route::post('/calculateBias', [ApiController::class, 'calculateBias']);
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

@@ -9,24 +9,16 @@ class ApiController extends Controller
 {
     public function create(Request $req)
     {
-        $data = json_decode(file_get_contents('php://input') , true);
+        $data = json_decode(file_get_contents("php://input"), true);
         $sql = "insert into " . $data[0]["tablename"] . " values (";
-        for ($i = 0;$i < count($data[1]["values"]);$i++)
-        {
-            if ($i == 0 && is_int($data[1]["values"][$i]))
-            {
+        for ($i = 0; $i < count($data[1]["values"]); $i++) {
+            if ($i == 0 && is_int($data[1]["values"][$i])) {
                 $sql .= "" . $data[1]["values"][$i];
-            }
-            else if ($i == 0 && is_string($data[1]["values"][$i]))
-            {
+            } elseif ($i == 0 && is_string($data[1]["values"][$i])) {
                 $sql .= "'" . $data[1]["values"][$i] . "'";
-            }
-            else if ($i != 0 && is_int($data[1]["values"][$i]))
-            {
+            } elseif ($i != 0 && is_int($data[1]["values"][$i])) {
                 $sql .= "," . $data[1]["values"][$i];
-            }
-            else
-            {
+            } else {
                 $sql .= ", '" . $data[1]["values"][$i] . "'";
             }
         }
@@ -36,96 +28,123 @@ class ApiController extends Controller
     }
     public function createWithColumns()
     {
-        $data = json_decode(file_get_contents('php://input') , true);
+        $data = json_decode(file_get_contents("php://input"), true);
         $sql = "insert into " . $data[0]["tablename"] . "(";
-        for ($i = 0;$i < count($data[1]["cols"]);$i++)
-        {
-            if ($i == 0)
-            {
+        for ($i = 0; $i < count($data[1]["cols"]); $i++) {
+            if ($i == 0) {
                 $sql .= $data[1]["cols"][$i];
-            }
-
-            else
-            {
+            } else {
                 $sql .= ", " . $data[1]["cols"][$i];
             }
         }
         $sql .= ") values (";
-        for ($i = 0;$i < count($data[2]["values"]);$i++)
-        {
-            if ($i == 0 && is_int($data[2]["values"][$i]))
-            {
+        for ($i = 0; $i < count($data[2]["values"]); $i++) {
+            if ($i == 0 && is_int($data[2]["values"][$i])) {
                 $sql .= "" . $data[2]["values"][$i];
-            }
-            else if ($i == 0 && is_string($data[2]["values"][$i]))
-            {
+            } elseif ($i == 0 && is_string($data[2]["values"][$i])) {
                 $sql .= "'" . $data[2]["values"][$i] . "'";
-            }
-            else if ($i != 0 && is_int($data[2]["values"][$i]))
-            {
+            } elseif ($i != 0 && is_int($data[2]["values"][$i])) {
                 $sql .= "," . $data[2]["values"][$i];
-            }
-            else
-            {
+            } else {
                 $sql .= ", '" . $data[2]["values"][$i] . "'";
             }
         }
         $sql .= ")";
         DB::statement($sql);
     }
+    public function updateOrInsert()
+    {
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        DB::table($data[0]["tablename"])->updateOrInsert(
+            [
+                $data[1]["uniqueCols"][0] => $data[3]["values"][0],
+                $data[1]["uniqueCols"][1] => $data[3]["values"][1],
+            ],
+            [$data[2]["changedValue"] => $data[3]["values"][2]]
+        );
+    }
     public function updateValue()
     {
-        $data = json_decode(file_get_contents('php://input') , true);
-        echo (print_r($data));
-        if (is_int($data[2]["values"][0]))
-        {
+        $data = json_decode(file_get_contents("php://input"), true);
+        echo print_r($data);
+        if (is_int($data[2]["values"][0])) {
             $value = $data[2]["values"][0];
-        }
-        else
-        {
+        } else {
             $value = "'" . $data[2]["values"][0] . "'";
         }
 
-        DB::table($data[0]["tablename"])->where($data[3]["condition"], $data[4]["conditionValue"])->update([$data[1]["col"] => $value]);
-
+        DB::table($data[0]["tablename"])
+            ->where($data[3]["condition"], $data[4]["conditionValue"])
+            ->update([$data[1]["col"] => $value]);
     }
-    public function singleSelect(Request $req){
-         $tableName = $req->input('tableName');
-         $col = $req->input('col');
-         $condition = $req->input('condition');
-         $conditionValue = $req->input('conditionValue');
-         $value = DB::table($tableName)
+    public function singleSelect(Request $req)
+    {
+        $tableName = $req->input("tableName");
+        $col = $req->input("col");
+        $condition = $req->input("condition");
+        $conditionValue = $req->input("conditionValue");
+        $value = DB::table($tableName)
             ->select($col)
-            ->where($condition,'=',$conditionValue)
+            ->where($condition, "=", $conditionValue)
             ->get();
-            $value=(array)$value[0];
-            
-           $key = array_keys($value);
-         echo($value[$key[0]]);
+        $value = (array) $value[0];
 
-
+        $key = array_keys($value);
+        echo $value[$key[0]];
     }
-    public function randomQuestions(){
-        
-        $questions=DB::table("sentences")
-                    ->select("id","Sentence")
-                    ->OrderByRaw("RAND()")
-                    ->limit(10)
-                    ->get();
-        foreach($questions as $question){
-            echo($question->Sentence."|".$question->id."|");
+    public function randomQuestions()
+    {
+        $questions = DB::table("sentences")
+            ->select("id", "Sentence")
+            ->OrderByRaw("RAND()")
+            ->limit(10)
+            ->get();
+        foreach ($questions as $question) {
+            echo $question->Sentence . "|" . $question->id . "|";
         }
-// $sql="select id , Sentence FROM sentences ORDER BY RAND() LIMIT 10";
-
-// $result=mysqli_query($conn,$sql);
-// if(mysqli_num_rows($result)>0){
-//     while($row=mysqli_fetch_assoc($result)){
-//         echo(($row["Sentence"]."|".$row["id"]."|"));
-//     }
-// }
-
-
+        // $sql="select id , Sentence FROM sentences ORDER BY RAND() LIMIT 10";
+        // $result=mysqli_query($conn,$sql);
+        // if(mysqli_num_rows($result)>0){
+        //     while($row=mysqli_fetch_assoc($result)){
+        //         echo(($row["Sentence"]."|".$row["id"]."|"));
+        //     }
+        // }
     }
-    
-}
 
+    public function increment(Request $req){
+
+        $tableName = $req->input("tableName");
+        $col = $req->input("col");
+        $condition = $req->input("condition");
+        $conditionValue = $req->input("conditionValue");
+        DB::table($tableName)
+            ->where($condition , $conditionValue)
+            ->increment($col);
+    }
+    public function calculateBias(Request $req)
+    {
+        $sentenceId = $req->input("sentenceId");
+        $sentence = DB::table("sentences")->where("id", $sentenceId);
+        $sentenceCount = $sentence->pluck("SentenceCount")->first();
+        $sentenceStatus = $sentence->pluck("SentenceStatus")->first();
+        if ($sentenceCount >= 10 && $sentenceStatus == "fresh") {
+            $biasMark = DB::table("answers")
+                ->where("sentence_id", $sentenceId)
+                ->sum("annotation");
+            if ($biasMark > 0) {
+                DB::table("sentences")
+                    ->where("id", $sentenceId)
+                    ->update(["SentenceBias" => "Biased"]);
+            } elseif ($biasMark < 0) {
+                DB::table("sentences")
+                    ->where("id", $sentenceId)
+                    ->update(["SentenceBias" => "Non-biased"]);
+            } else {
+                DB::table("sentences")
+                    ->where("id", $sentenceId)
+                    ->update(["SentenceBias" => "No agreement"]);
+            }
+        }
+    }
+}
