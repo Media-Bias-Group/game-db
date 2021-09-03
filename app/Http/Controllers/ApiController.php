@@ -126,9 +126,26 @@ class ApiController extends Controller
     {
         $sentenceId = $req->input("sentenceId");
         $sentence = DB::table("sentences")->where("id", $sentenceId);
-        $sentenceCount = $sentence->pluck("SentenceCount")->first();
         $sentenceStatus = $sentence->pluck("SentenceStatus")->first();
-        if ($sentenceCount >= 10 && $sentenceStatus == "fresh") {
+        $sentenceCount = $sentence->pluck("SentenceCount")->first();
+        $biasedCount= DB::table('answers')->where("sentence_id",$sentenceId)->where("annotation",1)->count();
+        $nonBiasedCount= DB::table('answers')->where("sentence_id",$sentenceId)->where("annotation",-1)->count();
+        //calculate ratio of biased to non biased
+        if($biasedCount<$nonBiasedCount){
+            $agreementRatio=$biasedCount/$nonBiasedCount;
+        }else if ($biasedCount>$nonBiasedCount){
+            $agreementRatio=$nonBiasedCount/$biasedCount;
+        }
+        //changing sentence type
+        if ($sentenceStatus=="fresh" && $sentenceCount==10 && $agreementRatio<0.7)
+        {
+            DB::table('sentences')
+              ->where("id", $sentenceId)
+              ->update(["SentenceStatus"=> "golden-fresh"]);
+        }
+        //calculating Bias
+        $sentenceStatus = $sentence->pluck("SentenceStatus")->first();
+        if ($sentenceStatus == "golden-fresh") {
             $biasMark = DB::table("answers")
                 ->where("sentence_id", $sentenceId)
                 ->sum("annotation");
@@ -146,5 +163,9 @@ class ApiController extends Controller
                     ->update(["SentenceBias" => "No agreement"]);
             }
         }
+        
     }
+
+
+    
 }
