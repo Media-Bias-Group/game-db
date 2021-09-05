@@ -2,11 +2,14 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use \Cache;
+
 
 use App\Http\Controllers\Controller;
 
 class ApiController extends Controller
 {
+    public $topics="null";
     public function create(Request $req)
     {
         $data = json_decode(file_get_contents("php://input"), true);
@@ -164,6 +167,12 @@ class ApiController extends Controller
             }
         }
         
+    }
+    public function getDailyTopics(){
+        $topics = Cache::get('topics');
+        foreach($topics as $topic){
+            echo($topic->topic)."|";
+        }
     }
 
 
