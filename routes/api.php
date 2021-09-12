@@ -26,6 +26,9 @@ Route::post('/increment', [ApiController::class, 'increment']);
 Route::get('/randomQuestions', [ApiController::class, 'randomQuestions']);
 Route::get('/dailyTopics', [ApiController::class, 'getDailyTopics']);
 Route::post('/calculateBias', [ApiController::class, 'calculateBias']);
+
+//survey endpoints
+Route::post('/submitSurvey', [ApiController::class, 'submitSurvey']);
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

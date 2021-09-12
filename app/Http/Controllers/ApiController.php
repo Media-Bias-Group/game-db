@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use \Cache;
+use App\Models\Outlet;
+use App\Models\Survey;
 
 
 use App\Http\Controllers\Controller;
@@ -173,6 +175,17 @@ class ApiController extends Controller
         foreach($topics as $topic){
             echo($topic->topic)."|";
         }
+    }
+    public function submitSurvey(Request $req){
+Survey::create(['user_id' => $req->user_id,
+'gender' => $req->gender,
+'age' => $req->age,
+'education' => $req->education,
+'proficiency' => $req->proficiency,
+'behaviour' => $req->behaviour,
+'averageNewsCheck' => $req->averageNewsCheck
+],
+);
     }
 
 
