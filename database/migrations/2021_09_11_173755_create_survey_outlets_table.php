@@ -15,10 +15,10 @@ class CreateSurveyOutletsTable extends Migration
     {
         Schema::create('survey_outlets', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('user_id',40);
+            $table->unsignedInteger('survey_id');
             $table->unsignedInteger('outlet_id');
-            $table->foreign('user_id')->references('id')->on('users') ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('outlet_id')->references('id')->on('outlets');
+            $table->foreign('survey_id')->references('id')->on('surveys') ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('outlet_id')->references('id')->on('outlets') ->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

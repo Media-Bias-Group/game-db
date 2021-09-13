@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class SurveyOutlet extends Model
 {
+    protected $fillable = ['survey_id','outlet_id'];
     use HasFactory;
 }
