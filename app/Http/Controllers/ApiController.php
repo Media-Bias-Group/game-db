@@ -197,9 +197,8 @@ class ApiController extends Controller
     }
     public function submitSurvey(Request $req)
     { //save survey data
-        $survey = Survey::updateOrCreate(['user_id' => $req->user_id, 'gender' => $req->gender, 'age' => $req->age, 'education' => $req->education, 'proficiency' => $req->proficiency, 'behaviour' => $req->behaviour, 'averageNewsCheck' => $req->averageNewsCheck],);
-        $surveyId = $survey->pluck("id")
-            ->first();
+        $survey = Survey::create(['user_id' => $req->user_id, 'gender' => $req->gender, 'age' => $req->age, 'education' => $req->education, 'proficiency' => $req->proficiency, 'behaviour' => $req->behaviour, 'averageNewsCheck' => $req->averageNewsCheck],);
+        $surveyId = $survey->id;
         $selectedOutlets = explode(",", $req->selectedOutlets);
         foreach ($selectedOutlets as $outlet)
         {
