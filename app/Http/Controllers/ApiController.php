@@ -6,6 +6,7 @@ use \Cache;
 use App\Models\Outlet;
 use App\Models\Survey;
 use App\Models\SurveyOutlet;
+use App\Models\TutorialAnswer;
 
 use App\Http\Controllers\Controller;
 
@@ -205,6 +206,11 @@ class ApiController extends Controller
             SurveyOutlet::updateOrCreate(['survey_id' => $surveyId, 'outlet_id' => $outlet]);
         }
 
+    }
+    public function submitTutorial(Request $req)
+    { //save survey data
+        TutorialAnswer::create(['user_id' => $req->user_id, 'tutorial_question_id' => $req->DBQuestionNo, 'answer' => $req->answer]);
+       
     }
 
 }
