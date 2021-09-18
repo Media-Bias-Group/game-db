@@ -31,6 +31,8 @@ Route::post('/calculateBias', [ApiController::class, 'calculateBias']);
 Route::post('/submitSurvey', [ApiController::class, 'submitSurvey']);
 //tutorial endpoints
 Route::post('/submitTutorial', [ApiController::class, 'submitTutorial']);
+Route::get('/getLevel6', [ApiController::class, 'getLevel6']);
+Route::get('/getLevel7', [ApiController::class, 'getLevel7']);
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

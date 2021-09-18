@@ -87,7 +87,7 @@ class ApiController extends Controller
     public function updateValue()
     {
         $data = json_decode(file_get_contents("php://input") , true);
-        echo print_r($data);
+        
         if (is_int($data[2]["values"][0]))
         {
             $value = $data[2]["values"][0];
@@ -211,6 +211,28 @@ class ApiController extends Controller
     { //save survey data
         TutorialAnswer::create(['user_id' => $req->user_id, 'tutorial_question_id' => $req->DBQuestionNo, 'answer' => $req->answer]);
        
+    }
+    public function getLevel6()
+    {
+          $questions = DB::table("sentences")->select("id", "Sentence","SentenceBias")
+            ->whereIn('id',[2,3,4,6,15,16,29,45,50,122])
+            ->get();
+           
+        foreach ($questions as $question)
+        {
+            echo $question->Sentence . "|" . $question->id . "|".$question->SentenceBias."|";
+        }
+    }
+    public function getLevel7()
+    {
+          $questions = DB::table("sentences")->select("id", "Sentence","SentenceBias")
+            ->whereIn('id',[30,36,62,78,90,111,173,190,196,231])
+            ->get();
+           
+        foreach ($questions as $question)
+        {
+            echo $question->Sentence . "|" . $question->id . "|".$question->SentenceBias."|";
+        }
     }
 
 }
