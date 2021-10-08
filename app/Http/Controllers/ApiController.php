@@ -7,6 +7,8 @@ use App\Models\Outlet;
 use App\Models\Survey;
 use App\Models\SurveyOutlet;
 use App\Models\TutorialAnswer;
+use App\Models\Word;
+use App\Models\SentenceWord;
 
 use App\Http\Controllers\Controller;
 
@@ -232,6 +234,19 @@ class ApiController extends Controller
         foreach ($questions as $question)
         {
             echo $question->Sentence . "|" . $question->id . "|".$question->SentenceBias."|";
+        }
+    }
+    public function getWords()  
+    {
+        $words = Word::join('sentence_words', function ($join) {
+            $join->on('sentence_words.word_id', '=', 'words.id')
+                 ->where('sentence_words.sentence_id', '=',3);
+        })
+        ->get();
+          
+        foreach ($words as $word)
+        {
+            echo $word->word;
         }
     }
 
