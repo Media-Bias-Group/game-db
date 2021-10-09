@@ -33,7 +33,7 @@ Route::post('/submitSurvey', [ApiController::class, 'submitSurvey']);
 Route::post('/submitTutorial', [ApiController::class, 'submitTutorial']);
 Route::get('/getLevel6', [ApiController::class, 'getLevel6']);
 Route::get('/getLevel7', [ApiController::class, 'getLevel7']);
-Route::get('/getWords', [ApiController::class, 'getWords']);
+Route::post('/getWords', [ApiController::class, 'getWords']);
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

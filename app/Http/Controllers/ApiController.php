@@ -236,17 +236,14 @@ class ApiController extends Controller
             echo $question->Sentence . "|" . $question->id . "|".$question->SentenceBias."|";
         }
     }
-    public function getWords()  
+    public function getWords(Request $req)  
     {
-        $words = Word::join('sentence_words', function ($join) {
-            $join->on('sentence_words.word_id', '=', 'words.id')
-                 ->where('sentence_words.sentence_id', '=',3);
-        })
-        ->get();
+        $words = Word::join('sentence_words', 'words.id', '=', 'sentence_words.word_id')
+        ->where('sentence_words.sentence_id', '=',$req->sentenceId)->get(['*']);
           
         foreach ($words as $word)
         {
-            echo $word->word;
+            echo $word->word."|";
         }
     }
 
