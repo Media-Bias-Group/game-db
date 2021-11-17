@@ -13,7 +13,7 @@ class ManualController extends Controller
         
         $attributes = request()->validate([
             'sentence' => 'required',
-            'link' => 'required',
+            'link' => '',
             'outlet' => 'required',
             'topic' => 'required',
             'type' => 'required',
@@ -24,12 +24,15 @@ class ManualController extends Controller
         $attributes+=['SentenceCount' => 0];
         $sentence=GameSentence::create($attributes);
         $sentenceId=$sentence->id;
-        $words=explode(" ",$request->biased_words);
+        if($request->biased_words){
+$words=explode(" ",$request->biased_words);
         foreach ($words as $word){
             $word=Word::create(['word'=>$word]);
             $wordId=$word->id;
             SentenceWord::create(['game_sentence_id'=>$sentenceId,'word_id'=>$wordId]);
         } 
+        }
+        
 
         return redirect('/manual');
     }

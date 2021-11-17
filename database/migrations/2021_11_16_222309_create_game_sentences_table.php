@@ -16,7 +16,7 @@ class CreateGameSentencesTable extends Migration
         Schema::create('game_sentences', function (Blueprint $table) {
             $table->increments('id');
             $table->string('sentence',500);
-            $table->string('link');
+            $table->string('link')->nullable();
             $table->string('outlet');
             $table->string('topic');
             $table->string('type');
