@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class AutomaticController extends Controller
 {
     public function import(Request $request) 
-    {  
+    {  dd($request);
 
         Excel::import(new SentencesImport(), $request->file('import_file'));
         
