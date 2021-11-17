@@ -26,6 +26,11 @@ Route::get('/manual', function () {
     return view('manual');
 })->middleware(['auth'])->name('dashboard');
 
+
+Route::get('/automatic', function () {
+    return view('automatic');
+})->middleware(['auth'])->name('dashboard');
+
 Route::post('manual', [ManualController::class, 'store'])->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
