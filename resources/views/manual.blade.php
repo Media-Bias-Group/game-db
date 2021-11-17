@@ -69,7 +69,7 @@
                     <label class="block mb-2 uppercase font-bold text-xs text-gray-700"
                            for="topic"
                     >
-                        outlet
+                        Topic
                     </label>   
   <select name="topic" id="topic"class="form-select block w-full mt-1">
       <option>abortion</option>
