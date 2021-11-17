@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ManualController;
+use App\Http\Controllers\AutomaticController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,5 +33,6 @@ Route::get('/automatic', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::post('manual', [ManualController::class, 'store'])->middleware(['auth'])->name('dashboard');
+Route::post('automatic', [AutomaticController::class, 'import'])->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
