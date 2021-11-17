@@ -30,7 +30,7 @@ $words=explode(" ",$request->biased_words);
             $word=Word::create(['word'=>$word]);
             $wordId=$word->id;
             SentenceWord::create(['game_sentence_id'=>$sentenceId,'word_id'=>$wordId]);
-        } 
+        }   
         }
         
 
