@@ -15,10 +15,10 @@ class CreateSentenceWordsTable extends Migration
     {
         Schema::create('sentence_words', function (Blueprint $table) {
            $table->increments('id');
-            $table->integer('sentence_id');
+            $table->unsignedInteger('game_sentence_id');
             $table->unsignedInteger('word_id');
             $table->foreign('word_id')->references('id')->on('words') ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('sentence_id')->references('id')->on('sentences') ->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('game_sentence_id')->references('id')->on('game_sentences') ->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
