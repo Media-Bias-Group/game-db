@@ -28,7 +28,7 @@ class ManualController extends Controller
         foreach ($words as $word){
             $word=Word::create(['word'=>$word]);
             $wordId=$word->id;
-            sleep(5);
+            sleep(8);
             SentenceWord::create(['sentence_id'=>$sentenceId,'word_id'=>$wordId]);
         } 
 
