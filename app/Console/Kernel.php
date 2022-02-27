@@ -24,8 +24,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('get:topics')->daily();
+        // $schedule->command('get:topics')->daily();
+        $schedule->command('reset:topics')->daily();
     }
+    
 
     /**
      * Register the commands for the application.

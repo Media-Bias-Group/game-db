@@ -9,6 +9,9 @@ use App\Models\SurveyOutlet;
 use App\Models\TutorialAnswer;
 use App\Models\Word;
 use App\Models\SentenceWord;
+use App\Models\GameUser;
+use App\Models\Topic;
+use App\Models\TopicDailyProgress;
 
 use App\Http\Controllers\Controller;
 
@@ -214,6 +217,14 @@ class ApiController extends Controller
         TutorialAnswer::create(['user_id' => $req->user_id, 'tutorial_question_id' => $req->DBQuestionNo, 'answer' => $req->answer]);
        
     }
+
+    public function createUser(Request $req)
+    { //save user data
+
+        GameUser::updateOrCreate(['id'=> $req->id],['user_id'=> $req->user_id,'achievements'=> $req->achievements,'level'=> $req->level,'local_rank'=> $req->local_rank,'money'=> $req->money,'slant'=> $req->slant,'game_finished'=> $req->game_finished]);
+       
+    }
+
     public function getLevel6()
     {
           $questions = DB::table("sentences")->select("id", "Sentence","SentenceBias")
@@ -246,6 +257,55 @@ class ApiController extends Controller
             echo $word->word."|";
         }
     }
+
+    public function getTopics(Request $req)  
+    {
+        $topics = Topic::select('topic_name')->get();
+
+          
+        foreach ($topics as $topic)
+        {
+            echo $topic->topic_name."|";
+        }
+    }
+    public function getTopicsDailyProgress(Request $req)  
+    {
+        
+        $topics = TopicDailyProgress::select('topic_id')->where('user_id', $req->user_id)->get();
+
+          
+        foreach ($topics as $topic)
+        {
+            echo $topic->topic_id."|";
+        }
+    }
+    public function getSentencePackage(Request $req)  
+    {
+        $progress = DB::table('sentence_progress')
+                   ->where('user_id', $req->user_id);
+
+        $sentences = DB::table('game_sentences')
+        ->leftJoinSub($progress, 'sentence_progress', function ($join) {
+            $join->on('game_sentences.id', '=', 'sentence_progress.sentence_id');
+        })->where('topic',$req->topic)
+        ->select('game_sentences.id','sentence','SentenceBias')
+        ->whereNull('user_id')
+        ->inRandomOrder()
+        ->limit(10)
+        ->get();
+
+         foreach ($sentences as $sentence)
+        {
+            echo $sentence->id . "|" . $sentence->sentence . "|".$sentence->SentenceBias."|";
+        }
+        
+          
+        // foreach ($sentences as $sentence)
+        // {
+        //     echo $sentence->sentence . "|" . $sentence->id . "|".$sentence->SentenceBias."|";
+        // }
+    }
+
 
 }
 

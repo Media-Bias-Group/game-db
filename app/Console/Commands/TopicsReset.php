@@ -1,27 +1,25 @@
 <?php
 
 namespace App\Console\Commands;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Console\Command;
-use app\Http\Controllers\ApiController;
-use \Cache;
 
-class GetDailyTopics extends Command
+use Illuminate\Console\Command;
+use App\Models\TopicDailyProgress;
+
+class TopicsReset extends Command
 {
-  public $topics=null;
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'get:topics';
+    protected $signature = 'reset:topics';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Refresh topics on a daily basis';
+    protected $description = 'referesh progress on daily basis';
 
     /**
      * Create a new command instance.
@@ -40,14 +38,7 @@ class GetDailyTopics extends Command
      */
     public function handle()
     {
-        $topics=DB::table("sentences")
-              ->select("topic")
-              ->OrderByRaw("RAND()")
-              ->distinct()
-              ->limit(7)
-              ->get();
-          Cache::put('topics', $topics);
-   
-        return 0;
+        
+        TopicDailyProgress::truncate();
     }
 }

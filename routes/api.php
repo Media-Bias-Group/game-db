@@ -29,6 +29,19 @@ Route::post('/calculateBias', [ApiController::class, 'calculateBias']);
 
 //survey endpoints
 Route::post('/submitSurvey', [ApiController::class, 'submitSurvey']);
+
+//User endpoints
+Route::post('/createUser', [ApiController::class, 'createUser']);
+
+//Topics endpoints
+Route::get('/getTopics', [ApiController::class, 'getTopics']);
+
+//dailytopics endpoints
+Route::post('/getDailyTopics', [ApiController::class, 'getTopicsDailyProgress']);
+
+//dailytopics endpoints
+Route::post('/getSentencePackage', [ApiController::class, 'getSentencePackage']);//todo
+
 //tutorial endpoints
 Route::post('/submitTutorial', [ApiController::class, 'submitTutorial']);
 Route::get('/getLevel6', [ApiController::class, 'getLevel6']);
