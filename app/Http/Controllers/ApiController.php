@@ -12,6 +12,10 @@ use App\Models\SentenceWord;
 use App\Models\GameUser;
 use App\Models\Topic;
 use App\Models\TopicDailyProgress;
+use App\Models\SentenceAnswer;
+use App\Models\WordsAnswer;
+use App\Models\SentenceProgress;
+use App\Models\TopicProgress;
 
 use App\Http\Controllers\Controller;
 
@@ -250,7 +254,7 @@ class ApiController extends Controller
     public function getWords(Request $req)  
     {
         $words = Word::join('sentence_words', 'words.id', '=', 'sentence_words.word_id')
-        ->where('sentence_words.sentence_id', '=',$req->sentenceId)->get(['*']);
+        ->where('sentence_words.game_sentence_id', '=',$req->sentenceId)->get(['*']);
           
         foreach ($words as $word)
         {
@@ -294,6 +298,8 @@ class ApiController extends Controller
         ->limit(10)
         ->get();
 
+
+        
          foreach ($sentences as $sentence)
         {
             echo $sentence->id . "|" . $sentence->sentence . "|".$sentence->SentenceBias."|";
@@ -306,6 +312,26 @@ class ApiController extends Controller
         // }
     }
 
+    public function submitSentenceAnswer(Request $req)
+    {
+        SentenceAnswer::create(['sentence_id' => $req->sentence_id, 'user_id' => $req->user_id, 'annotaion' => $req->annotaion, 'answer' => $req->answer]);
+    }
+    public function submitWordAnswer(Request $req)
+    {
+        WordsAnswer::create(['word_id' => $req->word_id, 'user_id' => $req->user_id, 'annotaion' => $req->annotaion, 'answer' => $req->answer]);
+    }
+    public function submitSentenceProgress(Request $req)
+    {
+    SentenceProgress::create(['user_id'=>$req->user_id,'sentence_id' => $req->sentence_id]);
+    }
+    public function submitTopicDailyProgress(Request $req)
+    {
+    TopicDailyProgress::create(['user_id'=>$req->user_id,'topic_id' => $req->topic_id]);
+    }
+    public function submitTopicProgress(Request $req)
+    {
+    TopicProgress::create(['user_id'=>$req->user_id,'topic_id' => $req->topic_id]);
+    }
 
 }
 

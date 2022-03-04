@@ -40,8 +40,17 @@ Route::get('/getTopics', [ApiController::class, 'getTopics']);
 Route::post('/getDailyTopics', [ApiController::class, 'getTopicsDailyProgress']);
 
 //dailytopics endpoints
-Route::post('/getSentencePackage', [ApiController::class, 'getSentencePackage']);//todo
+Route::post('/getSentencePackage', [ApiController::class, 'getSentencePackage']);
 
+//answers endpoints
+Route::post('/submitSentenceAnswer', [ApiController::class, 'submitSentenceAnswer']);
+Route::post('/submitWordAnswer', [ApiController::class, 'submitWordAnswer']);
+
+
+//progress
+Route::post('/submitSentenceProgress', [ApiController::class, 'submitSentenceProgress']);
+Route::post('/submitTopicDailyProgress', [ApiController::class, 'submitTopicDailyProgress']);
+Route::post('/submitTopicProgress', [ApiController::class, 'submitTopicProgress']);
 //tutorial endpoints
 Route::post('/submitTutorial', [ApiController::class, 'submitTutorial']);
 Route::get('/getLevel6', [ApiController::class, 'getLevel6']);
