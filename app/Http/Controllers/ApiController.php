@@ -229,6 +229,11 @@ class ApiController extends Controller
        
     }
 
+    public function insertWrongAnswer(Request $req){
+        $word=Word::firstOrCreate(['word' => $req->word], ['word' => $req->word]);
+        WordsAnswer::create(['word_id' => $word->id, 'user_id' => $req->user_id, 'annotaion' => 1, 'answer' => 0]);
+    }
+
     public function getLevel6()
     {
           $questions = DB::table("sentences")->select("id", "Sentence","SentenceBias")
@@ -253,12 +258,13 @@ class ApiController extends Controller
     }
     public function getWords(Request $req)  
     {
+        
         $words = Word::join('sentence_words', 'words.id', '=', 'sentence_words.word_id')
         ->where('sentence_words.game_sentence_id', '=',$req->sentenceId)->get(['*']);
           
         foreach ($words as $word)
         {
-            echo $word->word."|";
+            echo $word->word."|".$word->id."|";
         }
     }
 
@@ -332,6 +338,7 @@ class ApiController extends Controller
     {
     TopicProgress::create(['user_id'=>$req->user_id,'topic_id' => $req->topic_id]);
     }
+    
 
 }
 

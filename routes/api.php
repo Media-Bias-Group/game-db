@@ -46,11 +46,18 @@ Route::post('/getSentencePackage', [ApiController::class, 'getSentencePackage'])
 Route::post('/submitSentenceAnswer', [ApiController::class, 'submitSentenceAnswer']);
 Route::post('/submitWordAnswer', [ApiController::class, 'submitWordAnswer']);
 
-
-//progress
+//progress get
+Route::post('/getTopicDailyProgress', [ApiController::class, 'getTopicDailyProgress']);
+// Route::post('/getTopicProgress', [ApiController::class, 'getTopicProgress']);
+//progress post
 Route::post('/submitSentenceProgress', [ApiController::class, 'submitSentenceProgress']);
 Route::post('/submitTopicDailyProgress', [ApiController::class, 'submitTopicDailyProgress']);
 Route::post('/submitTopicProgress', [ApiController::class, 'submitTopicProgress']);
+
+
+//words endpoints
+Route::post('/insertWrongAnswer', [ApiController::class, 'insertWrongAnswer']);
+
 //tutorial endpoints
 Route::post('/submitTutorial', [ApiController::class, 'submitTutorial']);
 Route::get('/getLevel6', [ApiController::class, 'getLevel6']);
