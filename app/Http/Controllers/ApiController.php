@@ -318,6 +318,29 @@ class ApiController extends Controller
         // }
     }
 
+    public function getWordSentences(Request $req)  
+    {
+       
+        $sentences = DB::table('game_sentences')
+        ->select('game_sentences.id','sentence')
+        ->inRandomOrder()
+        ->limit(10)
+        ->get();
+
+
+        
+         foreach ($sentences as $sentence)
+        {
+            echo $sentence->id . "|" . $sentence->sentence . "|";
+        }
+        
+          
+        // foreach ($sentences as $sentence)
+        // {
+        //     echo $sentence->sentence . "|" . $sentence->id . "|".$sentence->SentenceBias."|";
+        // }
+    }
+
     public function submitSentenceAnswer(Request $req)
     {
         SentenceAnswer::create(['sentence_id' => $req->sentence_id, 'user_id' => $req->user_id, 'annotaion' => $req->annotaion, 'answer' => $req->answer]);

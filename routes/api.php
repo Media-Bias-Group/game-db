@@ -39,8 +39,9 @@ Route::get('/getTopics', [ApiController::class, 'getTopics']);
 //dailytopics endpoints
 Route::post('/getDailyTopics', [ApiController::class, 'getTopicsDailyProgress']);
 
-//dailytopics endpoints
+//sentences get
 Route::post('/getSentencePackage', [ApiController::class, 'getSentencePackage']);
+Route::post('/getWordSentences', [ApiController::class, 'getWordSentences']);
 
 //answers endpoints
 Route::post('/submitSentenceAnswer', [ApiController::class, 'submitSentenceAnswer']);
