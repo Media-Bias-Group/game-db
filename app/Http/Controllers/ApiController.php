@@ -225,7 +225,7 @@ class ApiController extends Controller
     public function createUser(Request $req)
     { //save user data
 
-        GameUser::updateOrCreate(['id'=> $req->id],['user_id'=> $req->user_id,'achievements'=> $req->achievements,'level'=> $req->level,'local_rank'=> $req->local_rank,'money'=> $req->money,'slant'=> $req->slant,'game_finished'=> $req->game_finished]);
+        GameUser::updateOrCreate(['id'=> $req->id],['global_skill'=> $req->global_skill,'global_XP'=> $req->global_XP,'game_finished'=> $req->game_finished]);
        
     }
 
@@ -343,7 +343,7 @@ class ApiController extends Controller
 
     public function submitSentenceAnswer(Request $req)
     {
-        SentenceAnswer::create(['sentence_id' => $req->sentence_id, 'user_id' => $req->user_id, 'annotaion' => $req->annotaion, 'answer' => $req->answer]);
+        SentenceAnswer::create(['sentence_id' => $req->sentence_id, 'user_id' => $req->user_id, 'annotaion' => $req->annotaion, 'answer' => $req->answer,'skill'=>$req->skill]);
     }
     public function submitWordAnswer(Request $req)
     {
@@ -360,6 +360,22 @@ class ApiController extends Controller
     public function submitTopicProgress(Request $req)
     {
     TopicProgress::create(['user_id'=>$req->user_id,'topic_id' => $req->topic_id]);
+    }
+    public function getXPValue(Request $req){
+        $XPValue = GameUser::where('id',  $req->id)->pluck('global_xp')->first();
+echo $XPValue;
+    }
+
+     public function updateXPValue(Request $req){
+       $affectedRows = GameUser::where('id',$req->id )->update(['global_XP' => $req->xp]);
+    }
+
+     public function calculateGlobalSkill(Request $req){
+$sum=SentenceAnswer::where('user_id', $req->user_id)->sum('skill');
+$count = SentenceAnswer::where('user_id', $req->user_id)->count();
+$affectedRows = GameUser::where('id',$req->user_id )->update(['global_skill' =>$sum/$count ]);
+
+    //    $affectedRows = GameUser::where('id',$req->id )->update(['global_XP' => $req->xp]);
     }
     
 

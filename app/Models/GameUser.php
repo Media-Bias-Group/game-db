@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class GameUser extends Model
 {
-    protected $fillable = ['id','user_id','achievements','level','local_rank','money','slant','game_finished'];
+    protected $fillable = ['id','global_skill','global_XP','game_finished'];
     use HasFactory;
 }

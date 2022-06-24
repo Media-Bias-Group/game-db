@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class SentenceAnswer extends Model
 {
-    protected $fillable=['sentence_id','user_id','annotaion','answer'];
+    protected $fillable=['sentence_id','user_id','annotaion','answer','skill'];
     use HasFactory;
 }

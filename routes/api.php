@@ -32,6 +32,9 @@ Route::post('/submitSurvey', [ApiController::class, 'submitSurvey']);
 
 //User endpoints
 Route::post('/createUser', [ApiController::class, 'createUser']);
+Route::post('/getXPValue', [ApiController::class, 'getXPValue']);
+Route::post('/updateXPValue', [ApiController::class, 'updateXPValue']);
+Route::post('/calculateGlobalSkill', [ApiController::class, 'calculateGlobalSkill']);
 
 //Topics endpoints
 Route::get('/getTopics', [ApiController::class, 'getTopics']);
