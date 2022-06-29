@@ -14,6 +14,7 @@ use App\Models\Topic;
 use App\Models\TopicDailyProgress;
 use App\Models\SentenceAnswer;
 use App\Models\WordsAnswer;
+use App\Models\TutorialWordsAnswers;
 use App\Models\SentenceProgress;
 use App\Models\TopicProgress;
 
@@ -349,6 +350,12 @@ class ApiController extends Controller
     public function submitWordAnswer(Request $req)
     {
         WordsAnswer::create(['word_id' => $req->word_id, 'user_id' => $req->user_id, 'annotaion' => $req->annotaion, 'answer' => $req->answer]);
+    }
+    public function submitTutorialWordAnswer(Request $req)
+    {
+        $word=Word::firstOrCreate(['word' => $req->word], ['word' => $req->word]);
+        TutorialWordsAnswers::create(['word_id' => $word->id, 'user_id' => $req->user_id, 'annotaion' => $req->annotation, 'answer' => $req->answer]);
+        
     }
     public function submitSentenceProgress(Request $req)
     {

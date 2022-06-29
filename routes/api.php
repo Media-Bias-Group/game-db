@@ -49,6 +49,7 @@ Route::post('/getWordSentences', [ApiController::class, 'getWordSentences']);
 //answers endpoints
 Route::post('/submitSentenceAnswer', [ApiController::class, 'submitSentenceAnswer']);
 Route::post('/submitWordAnswer', [ApiController::class, 'submitWordAnswer']);
+Route::post('/submitTutorialWordAnswer', [ApiController::class, 'submitTutorialWordAnswer']);
 
 //progress get
 Route::post('/getTopicDailyProgress', [ApiController::class, 'getTopicDailyProgress']);
