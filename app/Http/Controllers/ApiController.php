@@ -373,6 +373,11 @@ class ApiController extends Controller
 echo $XPValue;
     }
 
+      public function getSkillValue(Request $req){
+        $SkillValue = GameUser::where('id',  $req->id)->pluck('global_skill')->first();
+echo $SkillValue;
+    }
+
      public function updateXPValue(Request $req){
        $affectedRows = GameUser::where('id',$req->id )->update(['global_XP' => $req->xp]);
     }
