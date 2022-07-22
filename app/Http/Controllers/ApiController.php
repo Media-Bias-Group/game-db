@@ -319,13 +319,15 @@ class ApiController extends Controller
         // }
     }
 
+    
+
     public function getWordSentences(Request $req)  
     {
        
         $sentences = DB::table('game_sentences')
         ->select('game_sentences.id','sentence')
         ->inRandomOrder()
-        ->limit(10)
+        ->limit(30)
         ->get();
 
 
