@@ -364,7 +364,7 @@ class ApiController extends Controller
     }
     public function submitTopicDailyProgress(Request $req)
     {
-    TopicDailyProgress::create(['user_id'=>$req->user_id,'topic_id' => $req->topic_id]);
+    TopicDailyProgress::firstOrCreate(['user_id'=>$req->user_id,'topic_id' => $req->topic_id]);
     }
     public function submitTopicProgress(Request $req)
     {
